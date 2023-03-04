@@ -1,0 +1,20 @@
+{
+  "projects": {
+    "default": "korraaa",
+    "prod": "korraaa",
+    "qa": "korraaa-qa"
+  },
+  "targets": {
+    "korraaa": {
+      "hosting": {
+        "prod": [
+          "prod/"
+        ],
+        "qa": [
+          "qa/"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
