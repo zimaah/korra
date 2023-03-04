@@ -6,12 +6,18 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy:qa": "firebase use qa && firebase deploy",
-    "deploy": "firebase use prod && firebase deploy"
+    "build": "webpack --mode production",
+    "deploy:qa": "npm run build &&  firebase use qa && firebase deploy",
+    "deploy": "npm run build && firebase use prod && firebase deploy",
+    "serve": "webpack serve --mode development"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fullcalendar/core": "^6.1.4",
+    "@fullcalendar/daygrid": "^6.1.4",
+    "@fullcalendar/interaction": "^6.1.4",
+    "@fullcalendar/react": "^6.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -19,7 +25,7 @@
     "@babel/core": "^7.21.0",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
-    "babel-core": "^6.26.3",
+    "babel-core": "^4.7.16",
     "babel-loader": "^9.1.2",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^6.7.3",
