@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const { experiments } = require("webpack");
 const htmlPlugin = new HtmlWebPackPlugin({
  template: "./src/index.html",
  filename: "./index.html"
@@ -23,5 +24,8 @@ output: {
    use: ["style-loader", "css-loader"]
   }
 ]},
- plugins: [htmlPlugin]
+ plugins: [htmlPlugin],
+ experiments: {
+  topLevelAwait: true
+ }
 };
