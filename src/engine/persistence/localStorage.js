@@ -1,17 +1,14 @@
 export function addLocalStorage(value) {
     return new Promise((resolve) => {
-        console.log("LocalStoragePersistence: waiting 2 seconds...");
-        setTimeout(() => {
-            const events = JSON.parse(localStorage.getItem('events')) || []
-            const event = {
-                id: events.length,
-                data: value || `Event - ${events.length}`
-            }
-            console.log('LocalStoragePersistence:Add', event)
-            events.push(event)
-            localStorage.setItem('events', JSON.stringify(events))
-            resolve(true)
-        }, 2000)
+        const events = JSON.parse(localStorage.getItem('events')) || []
+        const event = {
+            id: events.length,
+            ...value
+        }
+        console.log('LocalStoragePersistence:Add', event)
+        events.push(event)
+        localStorage.setItem('events', JSON.stringify(events))
+        resolve(true)
     })
 }
 

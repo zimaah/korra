@@ -1,0 +1,15 @@
+.modal__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal__input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.modal__input input {
+    max-width: 50vw;
+}

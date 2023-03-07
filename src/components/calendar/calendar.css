@@ -1,0 +1,18 @@
+.home__container {
+    background-color: #fff;
+}
+
+/* FullCalendar */
+.fc-header-toolbar {
+    margin-top: 10px;
+}
+
+:root {
+    --fc-event-bg-color: lightgrey;
+    --fc-event-text-color: black;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.35em;
+}
+/* FullCalendar */
