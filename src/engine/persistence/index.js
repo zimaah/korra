@@ -1,12 +1,12 @@
 import { addLocalStorage, getAllLocalStorage, getLocalStorage, removeLocalStorage } from './localStorage';
-import { addFirebase } from './firebase';
+import { addFirebase } from './firebase/firebase';
 
 // localStorage or firebase
-const ENGINE = 'localStorage';
-let addFunction;
-let removeFunction;
-let getFunction;
-let getAllFunction;
+const ENGINE = 'firebase';
+let addFunction = () => {};
+let removeFunction = () => {};
+let getFunction = () => {};
+let getAllFunction = () => {};
 
 switch (ENGINE) {
     case 'localStorage': {

@@ -8,6 +8,7 @@ import './calendar.css';
 import { persistence } from '../../engine/persistence';
 import '../modal/modal';
 import KModal from '../modal/modal';
+import KToast from '../toast/toast';
 
 export default class DemoApp extends React.Component {
 
@@ -16,7 +17,9 @@ export default class DemoApp extends React.Component {
         this.state = {
             events: [],
             showModal: false,
-            selectedDate: null
+            selectedDate: null,
+            showToast: false,
+            showToastSuccess: false,
         };
     }
 
@@ -26,7 +29,6 @@ export default class DemoApp extends React.Component {
     }
 
     async showAddEventModal(info) {
-        console.log("info", info);
         this.setState({
             showModal: true,
             selectedDate: info.dateStr
@@ -34,31 +36,61 @@ export default class DemoApp extends React.Component {
     }
 
     showEventDetails(info) {
-        console.log(info.event, info.event.extendedProps.price);
         alert(`${info.event.title} ($${info.event.extendedProps.price}) - ${info.event.start}`);
     }
 
     render() {
-        console.log(this.state.events)
+        console.log(`rendering calendar`,this.state)
         return (
             <>
                 <Header />
                 <Container className='home__container'>
-                    {this.state.showModal && <KModal date={this.state.selectedDate} show={this.state.showModal} handleConfirm={async (name, price, date) => {
-                        persistence.add({
-                            title: `${name} (R$ ${price} 💵)`,
-                            date: date,
-                            extendedProps: {
-                                price: price,
-                            }
-                        })
-                
-                        const events = await persistence.getAll()
-                        this.setState({
-                            events: events,
-                            showModal: false
-                        })
-                    }} />}
+                    <KToast message={"Salvando evento..."} autohide={false} bg={"warning"} show={this.state.showToast} />
+                    <KToast
+                        message={"Evento salvo!"}
+                        autohide={true}
+                        closeButton
+                        bg={"success"}
+                        show={this.state.showToastSuccess}
+                        onClose={() => {
+                            this.setState({showToastSuccess: false})
+                        }}
+                    />
+                    
+                    <KModal
+                        date={this.state.selectedDate}
+                        show={this.state.showModal}
+                        handleClose={() => {
+                            this.setState({showModal: false})
+                        }}
+                        handleConfirm={async (name, price, date) => {
+                            this.setState({ showToast: true });
+
+                            persistence.add({
+                                title: `${name} (R$ ${price} 💵)`,
+                                date: date,
+                                extendedProps: {
+                                    price: price,
+                                }
+                            }).then(() => {
+                                // const events = await persistence.getAll()
+                                const events = [];
+                                this.setState({
+                                    events: events,
+                                    showModal: false,
+                                    showToastSuccess: true,
+                                    showToast: false
+                                });
+
+                                // hack! (to be removed)
+                                setTimeout(() => {
+                                    this.setState({showToastSuccess: false})
+                                }, 3000)
+                            });
+                        }} 
+                    />
+
+
                     <FullCalendar
                         plugins={[ dayGridPlugin, interactionPlugin ]}
                         initialView="dayGridMonth"

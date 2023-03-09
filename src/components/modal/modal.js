@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './modal.css';
 
 function KModal(props) {
-  const [show, setShow] = useState(props.show);
-
-  const handleClose = () => setShow(false);
-
+  
   return (
-    <>
-      <Modal show={show} onHide={handleClose}>
+    <Modal show={props.show} onHide={() => {
+      props.handleClose()
+    }}>
         <Modal.Header closeButton>
           <Modal.Title>Adicionar evento</Modal.Title>
         </Modal.Header>
@@ -32,7 +30,9 @@ function KModal(props) {
               </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button variant="secondary" onClick={() => {
+              props.handleClose()
+            }}>
               Cancelar
             </Button>
             <Button variant="primary" type='submit'>
@@ -41,7 +41,6 @@ function KModal(props) {
           </Modal.Footer>
         </form>
       </Modal>
-    </>
   );
 }
 

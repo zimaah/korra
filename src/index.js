@@ -8,4 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Custom CSS
 import './index.css';
 
+// Firebase
+import './engine/persistence/firebase/index';
+
 ReactDOM.render(<DemoApp/>, document.getElementById("app"));
