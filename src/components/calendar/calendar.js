@@ -18,7 +18,7 @@ export default class DemoApp extends React.Component {
             events: [],
             showModal: false,
             selectedDate: null,
-            showToast: false,
+            showLoadingToast: true,
             showToastSuccess: false,
         };
     }
@@ -45,17 +45,29 @@ export default class DemoApp extends React.Component {
             <>
                 <Header />
                 <Container className='home__container'>
-                    <KToast message={"Salvando evento..."} autohide={false} bg={"warning"} show={this.state.showToast} />
-                    <KToast
-                        message={"Evento salvo!"}
-                        autohide={true}
-                        closeButton
-                        bg={"success"}
-                        show={this.state.showToastSuccess}
-                        onClose={() => {
-                            this.setState({showToastSuccess: false})
-                        }}
-                    />
+                    {
+                        this.state.showLoadingToast &&
+                        <KToast
+                            message={"Salvando evento..."}
+                            autohide={false}
+                            bg={"warning"}
+                            show={this.state.showLoadingToast}
+                            loading
+                        />
+                    }
+                    {
+                        this.state.showToastSuccess &&
+                        <KToast
+                            message={"Evento salvo!"}
+                            autohide={true}
+                            closeButton
+                            bg={"success"}
+                            show={this.state.showToastSuccess}
+                            onClose={() => {
+                                this.setState({showToastSuccess: false})
+                            }}
+                        />
+                    }
                     
                     <KModal
                         date={this.state.selectedDate}
@@ -64,7 +76,7 @@ export default class DemoApp extends React.Component {
                             this.setState({showModal: false})
                         }}
                         handleConfirm={async (name, price, date) => {
-                            this.setState({ showToast: true });
+                            this.setState({ showLoadingToast: true });
 
                             persistence.add({
                                 title: `${name} (R$ ${price} 💵)`,
@@ -79,7 +91,7 @@ export default class DemoApp extends React.Component {
                                     events: events,
                                     showModal: false,
                                     showToastSuccess: true,
-                                    showToast: false
+                                    showLoadingToast: false
                                 });
 
                                 // hack! (to be removed)

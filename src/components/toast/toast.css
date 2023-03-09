@@ -1,3 +1,4 @@
+/* Mobile */
 @media only screen and (max-width: 600px) {
     .toast-container.top-0 {
         top: auto !important;
@@ -7,4 +8,27 @@
     .toast-container .toast {
         width: 100%;
     }
+}
+
+/* Dot animation */
+.ktoast__dots {
+    display:inline-block;
+    font-size: 16px;
+    clip-path: inset(0 1ch 0 0);
+    animation: dots 1s steps(4) infinite;
+}
+
+@keyframes dots {
+    to {
+        clip-path: inset(0 -1ch 0 0)
+    }
+}
+
+/* General */
+.ktoast .toast-header {
+    font-size: 20px;
+}
+
+.ktoast .toast-body {
+    font-size: 16px;
 }
