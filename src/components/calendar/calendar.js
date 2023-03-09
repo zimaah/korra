@@ -18,7 +18,7 @@ export default class DemoApp extends React.Component {
             events: [],
             showModal: false,
             selectedDate: null,
-            showLoadingToast: true,
+            showLoadingToast: false,
             showToastSuccess: false,
         };
     }
@@ -84,9 +84,8 @@ export default class DemoApp extends React.Component {
                                 extendedProps: {
                                     price: price,
                                 }
-                            }).then(() => {
-                                // const events = await persistence.getAll()
-                                const events = [];
+                            }).then(async () => {
+                                const events = await persistence.getAll()
                                 this.setState({
                                     events: events,
                                     showModal: false,

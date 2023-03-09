@@ -1,5 +1,5 @@
 import { addLocalStorage, getAllLocalStorage, getLocalStorage, removeLocalStorage } from './localStorage';
-import { addFirebase } from './firebase/firebase';
+import { addFirebase, getAllFirebase } from './firebase/firebase';
 
 // localStorage or firebase
 const ENGINE = 'firebase';
@@ -16,7 +16,10 @@ switch (ENGINE) {
         getAllFunction = (value) => { return getAllLocalStorage(value) };
         break
     }
-    default: addFunction = addFirebase
+    default: {
+        addFunction = addFirebase,
+        getAllFunction = getAllFirebase
+    }
 }
 
 export const persistence = {
