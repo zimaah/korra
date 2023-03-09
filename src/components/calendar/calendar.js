@@ -9,6 +9,7 @@ import { persistence } from '../../engine/persistence';
 import '../modal/modal';
 import KModal from '../modal/modal';
 import KToast from '../toast/toast';
+import KSpinner from '../spinner/spinner';
 
 export default class DemoApp extends React.Component {
 
@@ -20,12 +21,19 @@ export default class DemoApp extends React.Component {
             selectedDate: null,
             showLoadingToast: false,
             showToastSuccess: false,
+            loadingEvents: true
         };
     }
 
-    async componentDidMount() {
+    async calculateTotalPrice() {
         const events = await persistence.getAll()
-        this.setState({events: events})
+
+    }
+
+    async componentDidMount() {
+        this.setState({ loadingEvents: true })
+        const events = await persistence.getAll()
+        this.setState({events: events, loadingEvents: false})
     }
 
     async showAddEventModal(info) {
@@ -44,6 +52,12 @@ export default class DemoApp extends React.Component {
         return (
             <>
                 <Header />
+                {
+                    this.state.loadingEvents &&
+                    <div className='home__loading'>
+                        <KSpinner />
+                    </div>
+                }
                 <Container className='home__container'>
                     {
                         this.state.showLoadingToast &&
