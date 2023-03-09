@@ -21,19 +21,31 @@ export default class DemoApp extends React.Component {
             selectedDate: null,
             showLoadingToast: false,
             showToastSuccess: false,
-            loadingEvents: true
+            loadingEvents: true,
+            total: 0
         };
     }
 
     async calculateTotalPrice() {
         const events = await persistence.getAll()
-
+        let total = 0;
+        console.log(events)
+        for (let i = 0; i < events.length; i++) {
+            const ev = events[i];
+            console.log(ev);
+            total += Number.parseFloat(ev.price);
+        }
+        return total;
     }
 
     async componentDidMount() {
         this.setState({ loadingEvents: true })
         const events = await persistence.getAll()
-        this.setState({events: events, loadingEvents: false})
+        this.setState({
+            events: events,
+            loadingEvents: false,
+            total: await this.calculateTotalPrice()
+        })
     }
 
     async showAddEventModal(info) {
@@ -49,6 +61,7 @@ export default class DemoApp extends React.Component {
 
     render() {
         console.log(`rendering calendar`,this.state)
+        const summaryClass = !this.state.loadingEvents ? 'animate__animated animate__bounceInLeft' : '';
         return (
             <>
                 <Header />
@@ -104,7 +117,8 @@ export default class DemoApp extends React.Component {
                                     events: events,
                                     showModal: false,
                                     showToastSuccess: true,
-                                    showLoadingToast: false
+                                    showLoadingToast: false,
+                                    total: await this.calculateTotalPrice()
                                 });
 
                                 // hack! (to be removed)
@@ -128,17 +142,14 @@ export default class DemoApp extends React.Component {
                         }}
                     />
 
-                    <div className='home__summary'>
+                    <div className={`home__summary ${summaryClass}`}>
                         <h2>Resumo</h2>
                         <ul>
                             <li>
-                                Custos programados 2023: R$ 2500,00
-                            </li>
-                            <li>
-                                Custos 1 semestre 2023: R$ 1500,00
-                            </li>
-                            <li>
-                                Custos Marco 2023: R$ 500,00
+                                Custos programados 2023: R$ {
+                                    this.state.showLoadingToast ? <KSpinner /> : <span  id={"home__summary-total"}>{ this.state.total }</span>
+                                }
+
                             </li>
                         </ul>
                     </div>

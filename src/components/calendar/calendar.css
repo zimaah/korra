@@ -11,6 +11,14 @@
     z-index: 99999;
 }
 
+.home__summary {
+    font-size: 20px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 /* FullCalendar */
 .fc-header-toolbar {
     margin-top: 10px;

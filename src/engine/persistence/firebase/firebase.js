@@ -7,7 +7,7 @@ export async function addFirebase(value) {
     try {
         await addDoc(collection(firestore, 'events'), {
             title: value.title,
-            price: value.extendedProps.price,
+            price: Number.parseFloat(value.extendedProps.price),
             date: value.date,
         })
     } catch (error) {

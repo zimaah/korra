@@ -5,6 +5,9 @@ import DemoApp from './components/calendar/calendar';
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Animate.style
+import 'animate.css';
+
 // Custom CSS
 import './index.css';
 
