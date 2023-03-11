@@ -10,6 +10,7 @@ import '../modal/modal';
 import KModal from '../modal/modal';
 import KToast from '../toast/toast';
 import KSpinner from '../spinner/spinner';
+import UpdateRemoveEventModal from './updateRemoveEventModal';
 
 export default class DemoApp extends React.Component {
 
@@ -22,17 +23,17 @@ export default class DemoApp extends React.Component {
             showLoadingToast: false,
             showToastSuccess: false,
             loadingEvents: true,
-            total: 0
+            total: 0,
+            showModalUpdateRemove: false,
+            selectedEvent: undefined
         };
     }
 
     async calculateTotalPrice() {
         const events = await persistence.getAll()
         let total = 0;
-        console.log(events)
         for (let i = 0; i < events.length; i++) {
             const ev = events[i];
-            console.log(ev);
             total += Number.parseFloat(ev.price);
         }
         return total;
@@ -40,6 +41,9 @@ export default class DemoApp extends React.Component {
 
     async componentDidMount() {
         this.setState({ loadingEvents: true })
+        window.addEventListener("saveEvent", (e) => {
+            this.onSaveEventHandler(e.detail.name, e.detail.extendedProps.price, e.detail.date, e.detail.extendedProps)
+        })
         const events = await persistence.getAll()
         this.setState({
             events: events,
@@ -55,12 +59,42 @@ export default class DemoApp extends React.Component {
         })
     }
 
+    onSaveEventHandler(name, price, date, x) {
+        this.setState({ showLoadingToast: true });
+        console.log("x",x);
+
+        persistence.add({
+            title: `${name} (R$ ${price} 💵)`,
+            date: date,
+            extendedProps: {
+                price: price,
+                ...extendedProps
+            }
+        }).then(async () => {
+            const events = await persistence.getAll()
+            this.setState({
+                events: events,
+                showModal: false,
+                showToastSuccess: true,
+                showLoadingToast: false,
+                total: await this.calculateTotalPrice()
+            });
+
+            // hack! (to be removed)
+            setTimeout(() => {
+                this.setState({showToastSuccess: false})
+            }, 3000)
+        });
+    }
+
     showEventDetails(info) {
-        alert(`${info.event.title} ($${info.event.extendedProps.price}) - ${info.event.start}`);
+        this.setState({
+            showModalUpdateRemove: true,
+            selectedEvent: info
+        })
     }
 
     render() {
-        console.log(`rendering calendar`,this.state)
         const summaryClass = !this.state.loadingEvents ? 'animate__animated animate__bounceInLeft' : '';
         return (
             <>
@@ -96,6 +130,7 @@ export default class DemoApp extends React.Component {
                         />
                     }
                     
+                    {/* ADD */}
                     <KModal
                         date={this.state.selectedDate}
                         show={this.state.showModal}
@@ -129,6 +164,21 @@ export default class DemoApp extends React.Component {
                         }} 
                     />
 
+                    {/* UPDATE / REMOVE */}
+                    {
+                        this.state.showModalUpdateRemove &&
+                        <UpdateRemoveEventModal
+                            event={this.state.selectedEvent}
+                            show={this.state.showModalUpdateRemove}
+                            handleClose={ () => {this.setState({
+                                showModalUpdateRemove: false
+                            })} }
+                            handleConfirm={(name, price, date) => {
+                                console.log("handleConfirm callback...");
+                            }}
+                        />
+                    }
+
 
                     <FullCalendar
                         plugins={[ dayGridPlugin, interactionPlugin ]}
@@ -138,7 +188,10 @@ export default class DemoApp extends React.Component {
                         }}
                         events={this.state.events}
                         eventClick={(info) => {
-                            this.showEventDetails(info)
+                            this.setState({
+                                showModalUpdateRemove: true,
+                                selectedEvent: info.event
+                            })
                         }}
                     />
 

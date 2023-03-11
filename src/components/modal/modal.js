@@ -10,22 +10,35 @@ function KModal(props) {
       props.handleClose()
     }}>
         <Modal.Header closeButton>
-          <Modal.Title>Adicionar evento</Modal.Title>
+          <Modal.Title>{props.edit ? 'Editar' : 'Adicionar'} evento</Modal.Title>
         </Modal.Header>
         <form onSubmit={(e) => {
             e.preventDefault()
 
-            props.handleConfirm(e.target.name.value, e.target.price.value, props.date)
+            const customEvent = new CustomEvent("saveEvent", {
+              detail: {
+                name: e.target.name.value,
+                date: props.data.start,
+                extendedProps: {
+                  price: e.target.price.value,
+                  data: {
+                    ...props.data
+                  }
+                }
+              }
+            })
+            window.dispatchEvent(customEvent);
+            // props.handleConfirm(e.target.name.value, e.target.price.value, props.start)
           }}>
           <Modal.Body>
               <div className='modal__form'>
                 <div className='modal__input'>
                   <label>Evento</label>
-                  <input type="text" name="name" placeholder="Nome do evento..." autoFocus />
+                  <input type="text" name="name" placeholder="Nome do evento..." autoFocus defaultValue={props?.edit && props.data.title} />
                 </div>
                 <div className='modal__input'>
                   <label>Custo em R$</label>
-                  <input name="price" type="number" />
+                  <input name="price" type="number" defaultValue={props?.edit && props.data.extendedProps.price} />
                 </div>
               </div>
           </Modal.Body>

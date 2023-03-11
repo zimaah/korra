@@ -1,5 +1,5 @@
 import { addLocalStorage, getAllLocalStorage, getLocalStorage, removeLocalStorage } from './localStorage';
-import { addFirebase, getAllFirebase } from './firebase/firebase';
+import { addFirebase, getAllFirebase, removeFirebase } from './firebase/firebase';
 
 // localStorage or firebase
 const ENGINE = 'firebase';
@@ -18,7 +18,8 @@ switch (ENGINE) {
     }
     default: {
         addFunction = addFirebase,
-        getAllFunction = getAllFirebase
+        getAllFunction = getAllFirebase,
+        removeFunction = (value) => { return removeFirebase(value) }
     }
 }
 

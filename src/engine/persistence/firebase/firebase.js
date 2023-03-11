@@ -1,10 +1,13 @@
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc } from "firebase/firestore";
 import { firestore } from ".";
 
-export async function addFirebase(value) {
-    console.log(value);
-    
+export async function addFirebase(value) {    
     try {
+        console.log(`value`, value);
+        if (value.firebaseId) {
+            return updateDoc(collection(firestore, "events", ref))
+        }
+
         await addDoc(collection(firestore, 'events'), {
             title: value.title,
             price: Number.parseFloat(value.extendedProps.price),
@@ -24,12 +27,21 @@ export async function getAllFirebase() {
         qSnapshot.forEach((doc) => {
             events.push({
                 firebaseId: doc.id,
+                firebaseRef: doc.ref,
                 ...doc.data()
             });
         });
-        console.log(events);
         return events;
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function removeFirebase(ref) {
+    try {
+        console.log(ref, ref.path);
+        return deleteDoc(doc(firestore, ref.path))
+    } catch (error) {
+        console.log(error);
+    }   
 }
