@@ -41,9 +41,15 @@ export default class DemoApp extends React.Component {
 
     async componentDidMount() {
         this.setState({ loadingEvents: true })
+
+        // Event listeners
         window.addEventListener("saveEvent", (e) => {
-            this.onSaveEventHandler(e.detail.name, e.detail.extendedProps.price, e.detail.date, e.detail.extendedProps)
+            this.onSaveEventHandler(e.detail)
         })
+        window.addEventListener("deleteEvent", (e) => {
+            this.onDeleteEventHandler(e.detail)
+        })
+
         const events = await persistence.getAll()
         this.setState({
             events: events,
@@ -53,28 +59,32 @@ export default class DemoApp extends React.Component {
     }
 
     async showAddEventModal(info) {
+        console.log(info);
         this.setState({
             showModal: true,
             selectedDate: info.dateStr
         })
     }
 
-    onSaveEventHandler(name, price, date, x) {
-        this.setState({ showLoadingToast: true });
-        console.log("x",x);
+    async onDeleteEventHandler(path) {
+        await persistence.remove(path);        
+        const events = await persistence.getAll();
+        this.setState({
+            events: events,
+            showModalUpdateRemove: false
+        })
+        alert("Evento removido com sucesso!");
+    }
 
-        persistence.add({
-            title: `${name} (R$ ${price} 💵)`,
-            date: date,
-            extendedProps: {
-                price: price,
-                ...extendedProps
-            }
-        }).then(async () => {
+    onSaveEventHandler(event) {
+        this.setState({ showLoadingToast: true });
+
+        persistence.add(event).then(async () => {
             const events = await persistence.getAll()
             this.setState({
                 events: events,
                 showModal: false,
+                showModalUpdateRemove: false,
                 showToastSuccess: true,
                 showLoadingToast: false,
                 total: await this.calculateTotalPrice()
@@ -132,36 +142,13 @@ export default class DemoApp extends React.Component {
                     
                     {/* ADD */}
                     <KModal
-                        date={this.state.selectedDate}
+                        data={{
+                            startStr: this.state.selectedDate
+                        }}
                         show={this.state.showModal}
                         handleClose={() => {
                             this.setState({showModal: false})
                         }}
-                        handleConfirm={async (name, price, date) => {
-                            this.setState({ showLoadingToast: true });
-
-                            persistence.add({
-                                title: `${name} (R$ ${price} 💵)`,
-                                date: date,
-                                extendedProps: {
-                                    price: price,
-                                }
-                            }).then(async () => {
-                                const events = await persistence.getAll()
-                                this.setState({
-                                    events: events,
-                                    showModal: false,
-                                    showToastSuccess: true,
-                                    showLoadingToast: false,
-                                    total: await this.calculateTotalPrice()
-                                });
-
-                                // hack! (to be removed)
-                                setTimeout(() => {
-                                    this.setState({showToastSuccess: false})
-                                }, 3000)
-                            });
-                        }} 
                     />
 
                     {/* UPDATE / REMOVE */}
@@ -173,9 +160,6 @@ export default class DemoApp extends React.Component {
                             handleClose={ () => {this.setState({
                                 showModalUpdateRemove: false
                             })} }
-                            handleConfirm={(name, price, date) => {
-                                console.log("handleConfirm callback...");
-                            }}
                         />
                     }
 
@@ -188,10 +172,14 @@ export default class DemoApp extends React.Component {
                         }}
                         events={this.state.events}
                         eventClick={(info) => {
+                            console.log("editing...", info.event);
                             this.setState({
                                 showModalUpdateRemove: true,
                                 selectedEvent: info.event
                             })
+                        }}
+                        loading={(isLoading) => {
+                            console.log(`isLoading`, isLoading);
                         }}
                     />
 

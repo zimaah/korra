@@ -4,8 +4,10 @@ import { firestore } from ".";
 export async function addFirebase(value) {    
     try {
         console.log(`value`, value);
-        if (value.firebaseId) {
-            return updateDoc(collection(firestore, "events", ref))
+        if (value.extendedProps.firebaseId) {
+            const eventRef = doc(firestore, "events", value.extendedProps.firebaseId)
+            console.log(eventRef);
+            return updateDoc(eventRef, value)
         }
 
         await addDoc(collection(firestore, 'events'), {

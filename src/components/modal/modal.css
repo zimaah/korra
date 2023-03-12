@@ -13,3 +13,13 @@
 .modal__input input {
     max-width: 50vw;
 }
+
+#cancel-btn {
+    margin-right: 5px;
+}
+
+/* Bootstrap */
+.modal-footer.modal-footer__delete-btn {
+    justify-content: space-between;
+}
+/* Bootstrap */
