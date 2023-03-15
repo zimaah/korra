@@ -41,19 +41,22 @@ function KModal(props) {
               </div>
           </Modal.Body>
           <Modal.Footer className='modal-footer__delete-btn'>
-            <Button variant="danger" type='button' onClick={() => {
-                  if (confirm("Tem certeza que deseja remover o evento?")) {
-                    console.log("removendo...", props.data);
-                    const customEvent = new CustomEvent("deleteEvent", {
-                      detail: {
-                        path: props.data.extendedProps.firebaseRef.path
-                      }
-                    })
-                    window.dispatchEvent(customEvent)
-                  }
-                }}>
-              Remover
-            </Button>
+            {
+              props.data?.title &&
+              <Button variant="danger" type='button' onClick={() => {
+                if (confirm("Tem certeza que deseja remover o evento?")) {
+                  const customEvent = new CustomEvent("deleteEvent", {
+                    detail: {
+                      path: props.data.extendedProps.firebaseRef.path
+                    }
+                  })
+                  window.dispatchEvent(customEvent)
+                }
+                }}
+              >
+                Remover
+              </Button>
+            }
             <div className='modal-footer__right'>
               <Button id="cancel-btn" variant="secondary" onClick={() => {
                 props.handleClose()

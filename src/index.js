@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import DemoApp from './components/calendar/calendar';
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,7 +10,16 @@ import 'animate.css';
 // Custom CSS
 import './index.css';
 
-// Firebase
-import './engine/persistence/firebase/index';
+import Home from './Home';
 
-ReactDOM.render(<DemoApp/>, document.getElementById("app"));
+ReactDOM.render(<Home/>, document.getElementById("app"));
+
+window.addEventListener("DOMContentLoaded", async () => {
+    // Firebase
+    await import('./engine/persistence/firebase/index');
+
+    // Calendar
+    import('./components/calendar/calendar').then((e) => {
+        ReactDOM.render(<e.default />, document.getElementById("app"));
+    })
+})

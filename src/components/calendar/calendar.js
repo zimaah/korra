@@ -12,7 +12,7 @@ import KToast from '../toast/toast';
 import KSpinner from '../spinner/spinner';
 import UpdateRemoveEventModal from './updateRemoveEventModal';
 
-export default class DemoApp extends React.Component {
+export default class Calendar extends React.Component {
 
     constructor(props){
         super(props);
@@ -49,16 +49,15 @@ export default class DemoApp extends React.Component {
             this.onDeleteEventHandler(e.detail)
         })
 
-        // const events = await persistence.getAll()
+        const events = await persistence.getAll()
         this.setState({
-           //  events: events,
+            events: events,
             loadingEvents: false,
             total: await this.calculateTotalPrice()
         })
     }
 
     async showAddEventModal(info) {
-        console.log(info);
         this.setState({
             showModal: true,
             selectedDate: info.dateStr
@@ -107,13 +106,13 @@ export default class DemoApp extends React.Component {
         const summaryClass = !this.state.loadingEvents ? 'animate__animated animate__bounceInLeft' : '';
         return (
             <>
-                <Header />
                 {
                     this.state.loadingEvents &&
                     <div className='home__loading'>
                         <KSpinner />
                     </div>
                 }
+                <Header />
                 <Container className='home__container'>
                     {
                         this.state.showLoadingToast &&
@@ -171,14 +170,10 @@ export default class DemoApp extends React.Component {
                         }}
                         events={this.state.events}
                         eventClick={(info) => {
-                            console.log("editing...", info.event);
                             this.setState({
                                 showModalUpdateRemove: true,
                                 selectedEvent: info.event
                             })
-                        }}
-                        loading={(isLoading) => {
-                            console.log(`isLoading`, isLoading);
                         }}
                     />
 
