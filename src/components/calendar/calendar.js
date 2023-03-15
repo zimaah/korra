@@ -40,7 +40,6 @@ export default class DemoApp extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState({ loadingEvents: true })
 
         // Event listeners
         window.addEventListener("saveEvent", (e) => {
@@ -50,9 +49,9 @@ export default class DemoApp extends React.Component {
             this.onDeleteEventHandler(e.detail)
         })
 
-        const events = await persistence.getAll()
+        // const events = await persistence.getAll()
         this.setState({
-            events: events,
+           //  events: events,
             loadingEvents: false,
             total: await this.calculateTotalPrice()
         })

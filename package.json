@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
+    "build": "rm -rf ./dist && webpack --mode production",
     "deploy:qa": "npm run build &&  firebase use qa && firebase deploy",
     "deploy": "npm run build && firebase use prod && firebase deploy",
     "serve": "webpack serve --mode development"
@@ -21,6 +21,7 @@
     "animate.css": "^4.1.1",
     "bootstrap": "^5.2.3",
     "firebase": "^9.17.2",
+    "pwa-asset-generator": "^6.2.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0"
@@ -32,6 +33,7 @@
     "babel-core": "^4.7.16",
     "babel-loader": "^9.1.2",
     "babel-preset-react": "^6.24.1",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
