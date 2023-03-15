@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-// import DemoApp from './components/calendar/calendar';
+import DemoApp from './components/calendar/calendar';
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,6 +12,6 @@ import 'animate.css';
 import './index.css';
 
 // Firebase
-// import './engine/persistence/firebase/index';
+import './engine/persistence/firebase/index';
 
 ReactDOM.render(<DemoApp/>, document.getElementById("app"));
