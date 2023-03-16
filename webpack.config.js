@@ -12,6 +12,12 @@ const copyPlugin = new CopyPlugin({
       from: "./src/manifest.json",
     },
     {
+      from: "./src/sw.js",
+    },
+    {
+      from: "./src/workbox-d249b2c8.js",
+    },
+    {
       from: "./src/assets",
       to: "assets"
     }

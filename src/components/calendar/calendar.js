@@ -103,7 +103,7 @@ export default class Calendar extends React.Component {
     }
 
     render() {
-        const summaryClass = !this.state.loadingEvents ? 'animate__animated animate__bounceInLeft' : '';
+
         return (
             <>
                 {
@@ -113,7 +113,7 @@ export default class Calendar extends React.Component {
                     </div>
                 }
                 <Header />
-                <Container className='home__container'>
+                <Container>
                     {
                         this.state.showLoadingToast &&
                         <KToast
@@ -177,17 +177,20 @@ export default class Calendar extends React.Component {
                         }}
                     />
 
-                    <div className={`home__summary ${summaryClass}`}>
-                        <h2>Resumo</h2>
-                        <ul>
-                            <li>
-                                Custos programados 2023: R$ {
-                                    this.state.showLoadingToast ? <KSpinner /> : <span  id={"home__summary-total"}>{ this.state.total }</span>
-                                }
+                    {
+                        !this.state.loadingEvents &&
+                        <div className={`home__summary animate__animated animate__bounceInLeft`}>
+                            <h2>Resumo</h2>
+                            <ul>
+                                <li>
+                                    Custos programados 2023: R$ {
+                                        this.state.showLoadingToast ? <KSpinner /> : <span  id={"home__summary-total"}>{ this.state.total }</span>
+                                    }
 
-                            </li>
-                        </ul>
-                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    }
                 </Container>
             </>
         )

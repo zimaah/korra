@@ -1,4 +1,10 @@
 #app {
     background: #f5ffff63;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
+
+.fc-view-harness.fc-view-harness-active {
+    height: 65vh !important;
+  }
