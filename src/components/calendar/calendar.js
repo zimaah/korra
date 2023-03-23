@@ -2,6 +2,7 @@ import React from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'
+import ptBR from '@fullcalendar/core/locales/pt-br'
 import Header from '../header/header';
 import { Container } from 'react-bootstrap';
 import './calendar.css';
@@ -191,6 +192,7 @@ export default class Calendar extends React.Component {
                                 selectedEvent: info.event
                             })
                         }}
+                        locale={ptBR}
                     />
 
                     {
