@@ -58,6 +58,10 @@ function KModal(props) {
                   <input name="equipment" type="checkbox" defaultChecked={props?.edit && props.data.extendedProps.equipment}>
                   </input>
                 </div>
+                <div className='modal__input'>
+                  <label>Observacao</label>
+                  <textarea name="observation" rows={5} defaultValue={props?.edit && props.data.extendedProps.observation}></textarea>
+                </div>
               </div>
           </Modal.Body>
           <Modal.Footer className='modal-footer__delete-btn'>

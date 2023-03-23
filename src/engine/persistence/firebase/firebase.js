@@ -16,7 +16,8 @@ export async function addFirebase(value) {
             date: value.date,
             distance: value.extendedProps.distance,
             eventLink: value.extendedProps.eventLink,
-            equipment: value.extendedProps.equipment
+            equipment: value.extendedProps.equipment,
+            observation: value.extendedProps.observation
         })
     } catch (error) {
         console.log(error);
