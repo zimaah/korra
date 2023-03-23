@@ -1,6 +1,7 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import ptBR from '@fullcalendar/core/locales/pt-br'
 import Header from '../header/header';
@@ -180,8 +181,8 @@ export default class Calendar extends React.Component {
 
 
                     <FullCalendar
-                        plugins={[ dayGridPlugin, interactionPlugin ]}
-                        initialView="dayGridMonth"
+                        plugins={[ listPlugin, dayGridPlugin, interactionPlugin ]}
+                        initialView={window.innerWidth <= 440 ? 'listMonth' : 'dayGridMonth'}
                         dateClick={(info) => {
                             this.showAddEventModal(info)
                         }}
@@ -193,6 +194,11 @@ export default class Calendar extends React.Component {
                             })
                         }}
                         locale={ptBR}
+                        headerToolbar={
+                            {
+                                center: 'dayGridMonth,listMonth' // buttons for switching between views
+                            }
+                        }
                     />
 
                     {

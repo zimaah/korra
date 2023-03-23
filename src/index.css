@@ -7,4 +7,12 @@
 
 .fc-view-harness.fc-view-harness-active {
     height: 65vh !important;
-  }
+}
+
+@media only screen and (max-width: 440px) {
+    
+    .fc-header-toolbar .fc-toolbar-chunk:nth-child(3) {
+        display: flex;
+        margin-left: 10px;
+    }
+}
