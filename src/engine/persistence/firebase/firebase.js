@@ -14,6 +14,9 @@ export async function addFirebase(value) {
             title: value.title,
             price: Number.parseFloat(value.extendedProps.price),
             date: value.date,
+            distance: value.extendedProps.distance,
+            eventLink: value.extendedProps.eventLink,
+            equipment: value.extendedProps.equipment
         })
     } catch (error) {
         console.log(error);

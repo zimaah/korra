@@ -24,19 +24,26 @@ export default class Calendar extends React.Component {
             showToastSuccess: false,
             loadingEvents: true,
             total: 0,
+            totalDistance: 0,
             showModalUpdateRemove: false,
             selectedEvent: undefined
         };
     }
 
-    async calculateTotalPrice() {
+    async calculateTotal() {
         const events = await persistence.getAll()
         let total = 0;
+        let distance = 0;
         for (let i = 0; i < events.length; i++) {
             const ev = events[i];
             total += Number.parseFloat(ev.price);
+            distance += Number.parseFloat(ev.distance);
         }
-        return total;
+        
+        return {
+            price: total,
+            distance: distance
+        }
     }
 
     async componentDidMount() {
@@ -50,10 +57,13 @@ export default class Calendar extends React.Component {
         })
 
         const events = await persistence.getAll()
+        const total = await this.calculateTotal()
+
         this.setState({
             events: events,
             loadingEvents: false,
-            total: await this.calculateTotalPrice()
+            total: total.price,
+            totalDistance: total.distance
         })
     }
 
@@ -79,13 +89,16 @@ export default class Calendar extends React.Component {
 
         persistence.add(event).then(async () => {
             const events = await persistence.getAll()
+            const total = await this.calculateTotal()
+
             this.setState({
                 events: events,
                 showModal: false,
                 showModalUpdateRemove: false,
                 showToastSuccess: true,
                 showLoadingToast: false,
-                total: await this.calculateTotalPrice()
+                total: total.price,
+                totalDistance: total.distance
             });
 
             // hack! (to be removed)
@@ -186,7 +199,11 @@ export default class Calendar extends React.Component {
                                     Custos programados 2023: R$ {
                                         this.state.showLoadingToast ? <KSpinner /> : <span  id={"home__summary-total"}>{ this.state.total }</span>
                                     }
-
+                                </li>
+                                <li>
+                                    Distancia total planejada 2023: {
+                                        this.state.showLoadingToast ? <KSpinner /> : <span  id={"home__summary-total"}>{ this.state.totalDistance }KM</span>
+                                    }
                                 </li>
                             </ul>
                         </div>

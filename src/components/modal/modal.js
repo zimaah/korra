@@ -4,6 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import './modal.css';
 
 function KModal(props) {
+
+  console.log(props);
   
   return (
     <Modal show={props.show} onHide={() => {
@@ -15,12 +17,17 @@ function KModal(props) {
         <form onSubmit={(e) => {
             e.preventDefault()
 
+            console.log(e.target);
+
             const customEvent = new CustomEvent("saveEvent", {
               detail: {
                 title: e.target.title.value,
                 date: props.data.startStr,
                 extendedProps: {
                   price: e.target.price.value,
+                  distance: e.target.distance.value,
+                  eventLink: e.target.eventLink.value,
+                  equipment: e.target.equipment.checked,
                   firebaseId: props.data?.extendedProps?.firebaseId,
                   firebaseRef: props.data?.extendedProps?.firebaseRef
                 }
@@ -36,7 +43,20 @@ function KModal(props) {
                 </div>
                 <div className='modal__input'>
                   <label>Custo em R$</label>
-                  <input name="price" type="number" defaultValue={props?.edit && props.data.extendedProps.price} />
+                  <input name="price" type="number" inputMode='numeric' defaultValue={props?.edit && props.data.extendedProps.price} />
+                </div>
+                <div className='modal__input'>
+                  <label>Distancia em KM</label>
+                  <input name="distance" type="number" inputMode='numeric' defaultValue={props?.edit && props.data.extendedProps.distance} />
+                </div>
+                <div className='modal__input'>
+                  <label>Link do Evento</label>
+                  <input name="eventLink" type="text" defaultValue={props?.edit && props.data.extendedProps.eventLink} placeholder='https://www...' />
+                </div>
+                <div className='modal__input'>
+                  <label>Requer Equip. Especial (lanterna, etc)</label>
+                  <input name="equipment" type="checkbox" defaultChecked={props?.edit && props.data.extendedProps.equipment}>
+                  </input>
                 </div>
               </div>
           </Modal.Body>
