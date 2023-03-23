@@ -50,6 +50,10 @@ export default class Calendar extends React.Component {
 
         // Event listeners
         window.addEventListener("saveEvent", (e) => {
+            this.setState({
+                showModal: false,
+                showModalUpdateRemove: false
+            })
             this.onSaveEventHandler(e.detail)
         })
         window.addEventListener("deleteEvent", (e) => {
@@ -116,7 +120,6 @@ export default class Calendar extends React.Component {
     }
 
     render() {
-
         return (
             <>
                 {

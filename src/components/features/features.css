@@ -1,4 +1,4 @@
-.home__container {
+.features__container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,7 +8,7 @@
     margin: 10px 20px;
 }
 
-.home__cta {
+.features__cta {
     display: flex;
     flex-direction: column;
     align-items: center;

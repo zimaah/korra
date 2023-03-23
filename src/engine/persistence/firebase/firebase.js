@@ -1,16 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc } from "firebase/firestore";
 import { firestore } from ".";
 
-export async function addFirebase(value) {    
+export async function addFirebase(value) {
     try {
-        console.log(`value`, value);
-        if (value.extendedProps.firebaseId) {
-            const eventRef = doc(firestore, "events", value.extendedProps.firebaseId)
-            console.log(eventRef);
-            return updateDoc(eventRef, value)
-        }
-
-        await addDoc(collection(firestore, 'events'), {
+        const event = {
             title: value.title,
             price: Number.parseFloat(value.extendedProps.price),
             date: value.date,
@@ -18,7 +11,18 @@ export async function addFirebase(value) {
             eventLink: value.extendedProps.eventLink,
             equipment: value.extendedProps.equipment,
             observation: value.extendedProps.observation
-        })
+        }
+
+        console.log(`value`, value)
+        console.log(`event`, event)
+
+        if (value.extendedProps.firebaseId) {
+            const eventRef = doc(firestore, "events", value.extendedProps.firebaseId)
+            console.log(eventRef);
+            return updateDoc(eventRef, event)
+        }
+
+        await addDoc(collection(firestore, 'events'), event)
     } catch (error) {
         console.log(error);
     }

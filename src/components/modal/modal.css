@@ -18,6 +18,16 @@
     margin-right: 5px;
 }
 
+.modal__input--last-required {
+    margin-bottom: 40px;
+}
+
+.modal__input--required-fields {
+    font-style: italic;
+    color: rgba(0 0 0 / 50%);
+    font-size: 13px;
+}
+
 /* Bootstrap */
 .modal-footer.modal-footer__delete-btn {
     justify-content: space-between;

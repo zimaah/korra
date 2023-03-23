@@ -10,15 +10,31 @@ import 'animate.css';
 
 // Custom CSS
 import './index.css';
+import Features from './components/features/features';
+import Contact from './components/contact/contact';
+import Calendar from './components/calendar/calendar';
 
-ReactDOM.render(<Home/>, document.getElementById("app"));
+ReactDOM.render(<Calendar />, document.getElementById("app"));
 
-window.addEventListener("DOMContentLoaded", async () => {
-    // // Firebase
-    // await import('./engine/persistence/firebase/index');
+window.addEventListener("hashchange", async (e) => {
+    console.log(e)
 
-    // // Calendar
-    // import('./components/calendar/calendar').then((e) => {
-    //     ReactDOM.render(<e.default />, document.getElementById("app"));
-    // })
+    const component = e.newURL.split("#")[1];
+
+    // refreshing the page
+    switch (component) {
+        case 'features': {
+            import('./components/calendar/calendar').then((e) => {
+                ReactDOM.render(<Features />, document.getElementById("app"));
+            })
+            break;
+        }
+
+        case 'contato': {
+            import('./components/calendar/calendar').then((e) => {
+                ReactDOM.render(<Contact />, document.getElementById("app"));
+            })
+            break;
+        }
+    }
 })

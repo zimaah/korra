@@ -6,6 +6,17 @@ import './home.css';
 import { Button } from "react-bootstrap";
 
 export default function Home() {
+
+    const loadApp = async () => {
+        // Firebase
+        await import('../../engine/persistence/firebase/index');
+
+        // Calendar
+        import('../calendar/calendar').then((e) => {
+            ReactDOM.render(<e.default />, document.getElementById("app"));
+        })
+    }
+
     return (
         <>
             <Header />
@@ -22,15 +33,7 @@ export default function Home() {
                         Pronto?
                     </h1>
                     <br />
-                    <Button variant="secondary" onClick={async () => {
-                        // Firebase
-                        await import('../../engine/persistence/firebase/index');
-
-                        // Calendar
-                        import('../calendar/calendar').then((e) => {
-                            ReactDOM.render(<e.default />, document.getElementById("app"));
-                        })
-                    }}>Comecar!</Button>
+                    <Button variant="secondary" onClick={loadApp}>Comecar!</Button>
                 </div>
             </div>
             <Footer />

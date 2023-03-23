@@ -17,7 +17,7 @@ function KModal(props) {
         <form onSubmit={(e) => {
             e.preventDefault()
 
-            console.log(e.target);
+            e.target.title.setCustomValidity("Custom Message : Needs Specific Pattern Match");
 
             const customEvent = new CustomEvent("saveEvent", {
               detail: {
@@ -28,8 +28,9 @@ function KModal(props) {
                   distance: e.target.distance.value,
                   eventLink: e.target.eventLink.value,
                   equipment: e.target.equipment.checked,
+                  observation: e.target.observation.value,
                   firebaseId: props.data?.extendedProps?.firebaseId,
-                  firebaseRef: props.data?.extendedProps?.firebaseRef
+                  firebaseRef: props.data?.extendedProps?.firebaseRef,
                 }
               }
             })
@@ -37,17 +38,24 @@ function KModal(props) {
           }}>
           <Modal.Body>
               <div className='modal__form'>
+                <div className='modal__input--required-fields'>
+                  <span>Campos obrigatorios</span>
+                </div>
                 <div className='modal__input'>
                   <label>Evento</label>
-                  <input type="text" name="title" placeholder="Nome do evento..." autoFocus defaultValue={props?.edit && props.data.title} />
+                  <input required type="text" name="title" placeholder="Nome do evento..." autoFocus defaultValue={props?.edit && props.data.title} />
                 </div>
                 <div className='modal__input'>
                   <label>Custo em R$</label>
-                  <input name="price" type="number" inputMode='numeric' defaultValue={props?.edit && props.data.extendedProps.price} />
+                  <input required name="price" type="number" inputMode='numeric' defaultValue={props?.edit && props.data.extendedProps.price} />
                 </div>
-                <div className='modal__input'>
+                <div className='modal__input modal__input--last-required'>
                   <label>Distancia em KM</label>
-                  <input name="distance" type="number" inputMode='numeric' defaultValue={props?.edit && props.data.extendedProps.distance} />
+                  <input required name="distance" type="number" inputMode='numeric' defaultValue={props?.edit && props.data.extendedProps.distance} />
+                </div>
+
+                <div className='modal__input--required-fields'>
+                  <span>Campos opcionais</span>
                 </div>
                 <div className='modal__input'>
                   <label>Link do Evento</label>

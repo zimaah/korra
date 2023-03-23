@@ -7,7 +7,6 @@ export default function UpdateRemoveEventModal(props) {
             edit
             show={props.show}
             handleClose={() => {props.handleClose()}}
-            handleConfirm={() => {props.handleConfirm()}}
             data={props.event}
         />
     )
