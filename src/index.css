@@ -1,3 +1,15 @@
+:root {
+    --dark-blue: #1A183A;
+    --dark-blue-rgb: 26,24,58;
+
+    --lilas: #A874AE;
+    --orange: #E2623D;
+    --ice-white: #FFFEFE;
+
+    --bs-primary: var(--dark-blue);
+    --bs-primary-rgb: var(--dark-blue-rgb);
+}
+
 #app {
     background: #f5ffff63;
     height: 100vh;
