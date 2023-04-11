@@ -4,8 +4,6 @@ import Modal from 'react-bootstrap/Modal';
 import './modal.css';
 
 function KModal(props) {
-
-  console.log(props);
   
   return (
     <Modal show={props.show} onHide={() => {

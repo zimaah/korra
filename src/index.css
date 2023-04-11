@@ -27,4 +27,8 @@
         display: flex;
         margin-left: 10px;
     }
+
+    #fc-dom-1 {
+        font-size: 1em;
+    }
 }

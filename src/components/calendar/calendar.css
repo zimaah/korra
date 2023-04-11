@@ -17,6 +17,12 @@
     flex-direction: column;
 }
 
+.profile-modal {
+    display: flex;
+    flex-direction: column;
+    width: 333px;
+}
+
 /* FullCalendar */
 .fc-header-toolbar {
     margin-top: 10px;

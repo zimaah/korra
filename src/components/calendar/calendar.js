@@ -5,7 +5,7 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import ptBR from '@fullcalendar/core/locales/pt-br'
 import Header from '../header/header';
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import './calendar.css';
 import { persistence } from '../../engine/persistence';
 import '../modal/modal';
@@ -13,22 +13,31 @@ import KModal from '../modal/modal';
 import KToast from '../toast/toast';
 import KSpinner from '../spinner/spinner';
 import UpdateRemoveEventModal from './updateRemoveEventModal';
+import GenericModal from '../modal/generic-modal'
+import { sendEmailLink, signOut } from '../../engine/auth/firebase-email-link-auth'
 
 export default class Calendar extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            // domain data
             events: [],
+            // events CRUD
             showModal: false,
             selectedDate: null,
             showLoadingToast: false,
             showToastSuccess: false,
             loadingEvents: true,
+            showModalUpdateRemove: false,
+            selectedEvent: undefined,
+            // dashboard
             total: 0,
             totalDistance: 0,
-            showModalUpdateRemove: false,
-            selectedEvent: undefined
+            // login journey
+            showLoginModal: false,
+            showEmailSentModal: false,
+            showUserProfileModal: false
         };
     }
 
@@ -130,7 +139,19 @@ export default class Calendar extends React.Component {
                         <KSpinner />
                     </div>
                 }
-                <Header />
+                <Header
+                    page={"app"}
+                    loginMenuClickHandler={() => {
+                        this.setState({
+                            showLoginModal: true
+                        })
+                    }}
+                    userProfileClickHandler={() => {
+                        this.setState({
+                            showUserProfileModal: true
+                        })
+                    }}
+                />
                 <Container>
                     {
                         this.state.showLoadingToast &&
@@ -176,6 +197,101 @@ export default class Calendar extends React.Component {
                             handleClose={ () => {this.setState({
                                 showModalUpdateRemove: false
                             })} }
+                        />
+                    }
+
+                    {/* LOGIN MODAL */}
+                    {   this.state.showLoginModal && 
+                        <GenericModal
+                            show={this.state.showLoginModal}
+                            title={"Fazer login"}
+                            body={
+                                <>
+                                    <p>Para logar no app, basta informar o e-mail e clicar no link que será enviado para ele.</p>
+                                    <form id="generic-modal-form" onSubmit={(e) => {
+                                        try {
+                                            e.preventDefault()
+                                            const email = document.getElementById("email").value
+                                            // sendEmailLink(email)
+                                            this.setState({
+                                                showLoginModal: false,
+                                                showEmailSentModal: true
+                                            })
+                                        } catch (error) {
+                                            console.error(error)
+                                        }
+                                    }}>
+                                        <input id="email" placeholder='email@exemplo.com' type='email' required autoFocus></input>
+                                        <input type="submit" style={{display: 'none'}} id="generic-modal-form-submit-btn"></input>
+                                    </form>
+                                </>
+                            }
+                            btnLabel={"Enviar link"}
+                            btnClickHandler={() => {
+                                alert("korra :) 2")
+                                document.getElementById("generic-modal-form-submit-btn").click()
+                                alert("korra :) 3")
+                                
+                            }}
+                            onHideHandler={() => {
+                                this.setState({
+                                    showLoginModal: false
+                                })
+                            }}
+                        />
+                    }
+
+                    {/* EMAIL SENT MODAL */}
+                    { this.state.showEmailSentModal &&
+                        <GenericModal
+                            show={this.state.showEmailSentModal}
+                            title={"E-mail enviado!"}
+                            body={
+                                <p>
+                                    Clique no link enviado para o e-mail <b>{localStorage.getItem("emailForSignIn")}</b> para completar o login 🚀
+                                </p>
+                            }
+                            btnLabel={"OK, entendi!"}
+                            btnClickHandler={() => {
+                                this.setState({
+                                    showEmailSentModal: false   
+                                })
+                            }}
+                        />
+                    }
+                    
+                    {/* USER PROFILE MODAL */}
+                    { this.state.showUserProfileModal &&
+                        <GenericModal
+                            show={this.state.showUserProfileModal}
+                            title={"Perfil"}
+                            body={
+                                <form className='profile-modal' onSubmit={(e) => {
+                                    e.preventDefault()
+                                    console.log("saving profile...")
+                                    console.info("saving profile...")
+                                }}>
+                                    <input type='text' name='display_name' placeholder='Nome ou apelido' autoFocus/>
+                                    <input type='text' name='email' disabled value={localStorage.getItem('emailForSignIn')} />
+                                    <Button variant={"primary"} type="submit">Salvar</Button>
+                                    <br/>
+                                    <br/>
+                                    <Button
+                                        variant={"danger"}
+                                        onClick={() => {
+                                            const doLogout = confirm("Tem certeza que deseja efetuar o logout?")
+                                            if (doLogout) {
+                                                signOut().then(() => {
+                                                    alert("Logout concluído. Esperamos você de volta em breve!")
+                                                    this.setState({
+                                                        showUserProfileModal: false
+                                                    })
+                                                })
+                                            }
+                                        }}
+                                    >Fazer logout</Button>
+                                </form>
+                            }
                         />
                     }
 

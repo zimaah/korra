@@ -2,6 +2,9 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import Home from './components/home/home';
 
+// Firebase setup
+import './engine/persistence/firebase/index';
+
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,9 +16,11 @@ import './index.css';
 import Features from './components/features/features';
 import Contact from './components/contact/contact';
 import Calendar from './components/calendar/calendar';
+import { getAuthorizedUser, reAuthenticate, signInEmailLink } from './engine/auth/firebase-email-link-auth';
 
-ReactDOM.render(<Calendar />, document.getElementById("app"));
+ReactDOM.render(<Home />, document.getElementById("app"));
 
+// router
 window.addEventListener("hashchange", async (e) => {
     console.log(e)
 
@@ -23,15 +28,22 @@ window.addEventListener("hashchange", async (e) => {
 
     // refreshing the page
     switch (component) {
-        case 'features': {
+        case 'app': {
             import('./components/calendar/calendar').then((e) => {
+                ReactDOM.render(<Calendar />, document.getElementById("app"));
+            })
+            break;
+        }
+
+        case 'features': {
+            import('./components/features/features').then((e) => {
                 ReactDOM.render(<Features />, document.getElementById("app"));
             })
             break;
         }
 
         case 'contato': {
-            import('./components/calendar/calendar').then((e) => {
+            import('./components/contact/contact').then((e) => {
                 ReactDOM.render(<Contact />, document.getElementById("app"));
             })
             break;
