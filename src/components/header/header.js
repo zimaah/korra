@@ -38,7 +38,7 @@ function Header(props) {
           {
             props.page === 'app' && !userNotAuth &&
             <Nav.Link href={'#'} onClick={props.userProfileClickHandler}>
-              {authUser?.email}
+              {authUser?.displayName || authUser?.email}
               {!authChecked && <KSpinner /> }
             </Nav.Link>
           }

@@ -3,10 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function GenericModal(props) {
+
   return (
-    <Modal centered show={props.show} onHide={props.onHideHandler} size='lg'>
+    <Modal centered show={props.show} onHide={props.onHideHandler} size='lg' backdrop='static'>
       <Modal.Dialog>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton={props.showCloseBtn}>
           <Modal.Title>{props.title}</Modal.Title>
         </Modal.Header>
 

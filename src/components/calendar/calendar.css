@@ -20,7 +20,7 @@
 .profile-modal {
     display: flex;
     flex-direction: column;
-    width: 333px;
+    width: 300px;
 }
 
 /* FullCalendar */

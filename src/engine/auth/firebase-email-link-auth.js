@@ -9,9 +9,10 @@ const actionCodeSettings = {
     handleCodeInApp: true,
 };
 
-export function getAuthorizedUser() {
+export function getAuthorizedUser(callback) {
     getAuth(app).onAuthStateChanged((user) => {
-        console.log(`user`, user);
+        console.log(`getAuthorizedUser()`, user);
+        callback && callback(user)
     });
 }
 
@@ -25,7 +26,6 @@ export function sendEmailLink(email) {
         // if they open the link on the same device.
         window.localStorage.setItem('emailForSignIn', email);
         console.log(`Email sent to ${email}!`);
-        alert(`Email sent to ${email}`)
         // ...
     })
     .catch((error) => {
@@ -38,14 +38,15 @@ export function sendEmailLink(email) {
 export function signInEmailLink() {
     const auth = getAuth(app);
     let promise = false;
+    const userAuth = JSON.parse(localStorage.getItem("userAuth"))
 
-    if (isSignInWithEmailLink(auth, window.location.href)) {
+    if (isSignInWithEmailLink(auth, window.location.href) && !userAuth) {
         // Additional state parameters can also be passed via URL.
         // This can be used to continue the user's intended action before triggering
         // the sign-in operation.
         // Get the email if available. This should be available if the user completes
         // the flow on the same device where they started it.
-        let email = window.localStorage.getItem('emailForSignIn') || 'zimaah@gmail.com';
+        let email = window.localStorage.getItem('emailForSignIn');
         if (!email) {
             // User opened the link on a different device. To prevent session fixation
             // attacks, ask the user to provide the associated email again. For example:

@@ -14,7 +14,9 @@ import KToast from '../toast/toast';
 import KSpinner from '../spinner/spinner';
 import UpdateRemoveEventModal from './updateRemoveEventModal';
 import GenericModal from '../modal/generic-modal'
-import { sendEmailLink, signOut } from '../../engine/auth/firebase-email-link-auth'
+import { getAuthorizedUser, sendEmailLink, signOut } from '../../engine/auth/firebase-email-link-auth'
+import { getAuth, updateProfile } from 'firebase/auth'
+import { app } from '../../engine/persistence/firebase'
 
 export default class Calendar extends React.Component {
 
@@ -37,7 +39,8 @@ export default class Calendar extends React.Component {
             // login journey
             showLoginModal: false,
             showEmailSentModal: false,
-            showUserProfileModal: false
+            showUserProfileModal: false,
+            currentUser: false
         };
     }
 
@@ -58,6 +61,7 @@ export default class Calendar extends React.Component {
     }
 
     async componentDidMount() {
+        console.log(getAuthorizedUser())
 
         // Event listeners
         window.addEventListener("saveEvent", (e) => {
@@ -79,6 +83,10 @@ export default class Calendar extends React.Component {
             loadingEvents: false,
             total: total.price,
             totalDistance: total.distance
+        })
+
+        getAuthorizedUser((currentUser) => {
+            this.setState({ currentUser: currentUser })
         })
     }
 
@@ -212,7 +220,7 @@ export default class Calendar extends React.Component {
                                         try {
                                             e.preventDefault()
                                             const email = document.getElementById("email").value
-                                            // sendEmailLink(email)
+                                            sendEmailLink(email)
                                             this.setState({
                                                 showLoginModal: false,
                                                 showEmailSentModal: true
@@ -228,9 +236,7 @@ export default class Calendar extends React.Component {
                             }
                             btnLabel={"Enviar link"}
                             btnClickHandler={() => {
-                                alert("korra :) 2")
                                 document.getElementById("generic-modal-form-submit-btn").click()
-                                alert("korra :) 3")
                                 
                             }}
                             onHideHandler={() => {
@@ -238,6 +244,7 @@ export default class Calendar extends React.Component {
                                     showLoginModal: false
                                 })
                             }}
+                            showCloseBtn
                         />
                     }
 
@@ -266,12 +273,19 @@ export default class Calendar extends React.Component {
                             show={this.state.showUserProfileModal}
                             title={"Perfil"}
                             body={
-                                <form className='profile-modal' onSubmit={(e) => {
+                                <form className='profile-modal' onSubmit={async (e) => {
                                     e.preventDefault()
-                                    console.log("saving profile...")
-                                    console.info("saving profile...")
+                                    console.log("saving profile...", this.state.currentUser)
+                                    try {
+                                        await updateProfile(this.state.currentUser, {displayName: document.getElementsByName("display_name")[0].value})
+                                        this.setState({
+                                            showUserProfileModal: false
+                                        })
+                                    } catch (error) {
+                                        console.error(error)
+                                    }
                                 }}>
-                                    <input type='text' name='display_name' placeholder='Nome ou apelido' autoFocus/>
+                                    <input type='text' name='display_name' placeholder='Nome ou apelido' autoFocus defaultValue={this.state.currentUser?.displayName}/>
                                     <input type='text' name='email' disabled value={localStorage.getItem('emailForSignIn')} />
                                     <Button variant={"primary"} type="submit">Salvar</Button>
                                     <br/>
@@ -283,6 +297,8 @@ export default class Calendar extends React.Component {
                                             if (doLogout) {
                                                 signOut().then(() => {
                                                     alert("Logout concluído. Esperamos você de volta em breve!")
+                                                    // clear flag in localStorage to start an auth journey from scratch
+                                                    localStorage.setItem("userAuth", false)
                                                     this.setState({
                                                         showUserProfileModal: false
                                                     })
@@ -292,6 +308,12 @@ export default class Calendar extends React.Component {
                                     >Fazer logout</Button>
                                 </form>
                             }
+                            showCloseBtn
+                            onHideHandler={() => {
+                                this.setState({
+                                    showUserProfileModal: false
+                                })
+                            }}
                         />
                     }
 

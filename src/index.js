@@ -17,36 +17,15 @@ import Features from './components/features/features';
 import Contact from './components/contact/contact';
 import Calendar from './components/calendar/calendar';
 import { getAuthorizedUser, reAuthenticate, signInEmailLink } from './engine/auth/firebase-email-link-auth';
+import Router from './engine/router/router';
 
 ReactDOM.render(<Home />, document.getElementById("app"));
 
 // router
 window.addEventListener("hashchange", async (e) => {
     console.log(e)
-
     const component = e.newURL.split("#")[1];
 
     // refreshing the page
-    switch (component) {
-        case 'app': {
-            import('./components/calendar/calendar').then((e) => {
-                ReactDOM.render(<Calendar />, document.getElementById("app"));
-            })
-            break;
-        }
-
-        case 'features': {
-            import('./components/features/features').then((e) => {
-                ReactDOM.render(<Features />, document.getElementById("app"));
-            })
-            break;
-        }
-
-        case 'contato': {
-            import('./components/contact/contact').then((e) => {
-                ReactDOM.render(<Contact />, document.getElementById("app"));
-            })
-            break;
-        }
-    }
+    Router(component)
 })

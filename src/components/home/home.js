@@ -4,10 +4,11 @@ import Header from "../header/header";
 import Footer from "../footer/footer";
 import './home.css';
 import { Button } from "react-bootstrap";
-import { reAuthenticate, sendEmailLink, signInEmailLink, signOut } from '../../engine/auth/firebase-email-link-auth';
-import { getAuth } from 'firebase/auth';
+import { signInEmailLink } from '../../engine/auth/firebase-email-link-auth';
+import { getAuth, isSignInWithEmailLink } from 'firebase/auth';
 import { app } from '../../engine/persistence/firebase';
 import GenericModal from '../modal/generic-modal';
+import Router from '../../engine/router/router';
 
 export default function Home() {
     const [showLoginSuccessfulModal, setShowLoginSuccessfulModal] = useState(false)
@@ -22,7 +23,7 @@ export default function Home() {
 
     // checks if sign up process has started
     window.addEventListener("load", () => {
-        console.log("load!")
+        console.log("load!", )
         const signPromise = signInEmailLink()
         if (signPromise) {
             signPromise.then((result) => {
@@ -37,6 +38,7 @@ export default function Home() {
                 console.log(result.user);
 
                 setShowLoginSuccessfulModal(true)
+                localStorage.setItem("userAuth", true)
             })
             .catch((error) => {
                 // Some error occurred, you can inspect the code: error.code
@@ -44,6 +46,10 @@ export default function Home() {
                 console.error(error)
                 setShowLoginErrorModal(true)
             });
+            // already logged in, just redirect to app
+        } else {
+            console.log(`isSignInWithEmailLink(getAuth(app), window.location.href)`, isSignInWithEmailLink(getAuth(app), window.location.href))
+            isSignInWithEmailLink(getAuth(app), window.location.href) && Router('app')
         }
     })
 
@@ -57,26 +63,11 @@ export default function Home() {
         })
     }
 
-    const isDisabled = () => {
-        return authUser !== null;
-    }
-
-    const sendEmail = () => {
-        sendEmailLink('zimaah@gmail.com')
-    }
-
-    const logout = () => {
-        signOut()
-    }
-
-    const login = () => {
-        signInEmailLink()
-    }
-
     return (
         <>
             <Header />
             <div className="home__container">
+                {/* SUCCESS LOGIN MODAL */}
                 {   showLoginSuccessfulModal &&
                     <GenericModal
                         show={showLoginSuccessfulModal}
@@ -89,10 +80,12 @@ export default function Home() {
                         btnLabel={"Começar"}
                         btnClickHandler={() => {
                             // navigate to app
-                            window.location.hash = 'app'
+                            window.location.href = window.location.origin
                         }}
                     />
                 }
+
+                {/* ERROR LOGIN MODAL */}
                 {   showLoginErrorModal &&
                     <GenericModal
                         show={showLoginErrorModal}
