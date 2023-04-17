@@ -1,3 +1,6 @@
+.footer {
+    z-index: 99999;
+}
 .footer span {
     color: #fff;
 }

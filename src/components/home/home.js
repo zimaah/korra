@@ -9,10 +9,12 @@ import { app } from '../../engine/persistence/firebase';
 import GenericModal from '../modal/generic-modal';
 import Router from '../../engine/router/router';
 import { checksIfLoginSuccessful } from '../../engine/auth/utils';
+import KSpinner from '../spinner/spinner';
 
 export default function Home() {
     const [showLoginSuccessfulModal, setShowLoginSuccessfulModal] = useState(false)
     const [showLoginErrorModal, setShowLoginErrorModal] = useState(false)
+    const [loading, setLoading] = useState(true)
     let authUser = null;
 
     useEffect(() => {
@@ -47,13 +49,17 @@ export default function Home() {
     return (
         <>
             <Header page={'home'} />
-                <div className="home__container">
-                <video autoPlay loop defaultPlaybackRate={4.0} playbackRate={3.0} muted id="myVideo" onEnded={() => {
-                    // only fires if "loop" isn't set
-                    document.getElementById("home__cta").className += ' home__cta--show'
-                }}>
-                    <source src="/assets/bg.mp4" type="video/mp4" />
-                </video>
+                    {
+                        loading &&
+                        <div className='home__loading'>
+                            <KSpinner />
+                        </div>
+                    }
+                <div id="home-container" className="home__container">
+
+                <img src="/assets/bg.webp" id="home-bg" onLoad={() => {
+                    setLoading(false)
+                }}/>
                     {/* SUCCESS LOGIN MODAL */}
                     {   showLoginSuccessfulModal &&
                         <GenericModal
