@@ -6,6 +6,7 @@
     --orange: #E2623D;
     --ice-white: #FFFEFE;
 
+    --bs-primary-rgb: var(--dark-blue-rgb);
     --bs-primary: var(--dark-blue);
     --bs-primary-rgb: var(--dark-blue-rgb);
 }
