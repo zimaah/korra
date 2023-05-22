@@ -1,0 +1,42 @@
+title Home page - Get all vaults info + current vtoken price/1W variation/TVL (single-call)
+
+participantgroup #lightgreen **Frontend**
+actor Defi Investor (mobile/desktop browser)
+participant EntryPoint Webapp
+end 
+
+participantgroup #lightblue **Backend (Blockchain/API)**
+participant EntryPoint API
+participant EntryPoint Blockchain
+participant Postgres
+end
+
+participantgroup #orange **3rd Party**
+participant Coin Gecko
+end
+
+Defi Investor (mobile/desktop browser)->EntryPoint Webapp:Access the dapp\nhttps://app.entrypoint.zone
+EntryPoint Webapp->EntryPoint API: One call to query vault's info (blockchain) + //TVL// + //current price// + //1W variation// for all vaults\n**/api/v1/vaults**
+EntryPoint API->EntryPoint Blockchain:Blockchain Client call to\n**/entrypoint/vaults/vaults**
+EntryPoint API<-EntryPoint Blockchain:Response\nSee: <link:http://172.30.151.190:1317/swagger/#/EntryPoint%20Queries/Vaults>/entrypoint/vaults/vaults</link>               
+
+group #f2f2f2 TVL Calculation
+box over EntryPoint API:Create a set (list with unique items)\nbased on all tokens from\nall vaults constitution\n**Reason: to not query the same token twice**
+EntryPoint API<-EntryPoint API: //Creating set with unique tokens based on the previous call response...//
+box over EntryPoint API:We might need to map the tokens IDs (from all constitutions)\nto the IDs accepted by CoinGecko endpoint before making the call\nto get the prices. Ex: the ID in the CG API for "Bitcoin" is "bitcoin" and not "btc".
+EntryPoint API->Coin Gecko: Fetch tokens price taken from the set of the previous step\n**https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum**
+EntryPoint API<-Coin Gecko: Response\nSee: <link:https://www.coingecko.com/en/api/documentation#operations-coins-get_coins_markets>/coingecko.com/api/v3/coins/markets</link>                     
+box over EntryPoint API:Once this loop is finished, we will have the "total value" (in USD) for all tokens.\nWith this value in hands, we can calculate the TVL for each vault\nby summing the TVL of each token which constitute a given vault
+EntryPoint API<-EntryPoint API: //Looping through the tokens set and calculating the "total value" (token price * token balance)\nof each token based on the prices of the previous call...//
+end
+
+group #f2f2f2 Current vToken Price + 1W variation
+box over EntryPoint API: Note: considering that vtokens_prices would store\nboth the current price and 1w variation
+EntryPoint API->Postgres: Query "vtokens_prices" table
+EntryPoint API<-Postgres: //Array of prices//
+end
+
+EntryPoint API<-EntryPoint API://Data aggregation step\nTo organize everything in an array of objects\ncontaining exactly what the FE needs//
+EntryPoint Webapp<-EntryPoint API: Response\nSee: <link:https://wiki.simply-vc.com.mt/display/ET/REST+API+Endpoints>/api/v1/vaults</link>                     
+EntryPoint Webapp<-EntryPoint Webapp:translate denoms based on\na data structure hard-coded in the FE
+Defi Investor (mobile/desktop browser)<-EntryPoint Webapp: The necessary data is aggregated\nso we can update the UI

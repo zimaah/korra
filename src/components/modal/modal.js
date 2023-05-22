@@ -6,7 +6,7 @@ import './modal.css';
 function KModal(props) {
   
   return (
-    <Modal show={props.show} onHide={() => {
+    <Modal centered show={props.show} onHide={() => {
       props.handleClose()
     }}>
         <Modal.Header closeButton>

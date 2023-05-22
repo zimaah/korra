@@ -6,7 +6,7 @@ export default function AppMenuItems(props) {
     return <>
             {
             props.page === 'app' && !props.userNotAuth &&
-            <Nav.Link href={'#'} onClick={props.userProfileClickHandler}>
+            <Nav.Link href={'#'} onClick={props.userProfileClickHandler} active>
                 {props.authUser?.displayName || props.authUser?.email}
                 {!props.authChecked && <KSpinner /> }
             </Nav.Link>

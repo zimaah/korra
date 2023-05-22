@@ -49,15 +49,15 @@ export default function Home() {
     return (
         <>
             <Header page={'home'} />
-                    {
+                    {/* {
                         loading &&
                         <div className='home__loading'>
                             <KSpinner />
                         </div>
-                    }
+                    } */}
                 <div id="home-container" className="home__container">
 
-                <img src="/assets/bg.webp" id="home-bg" onLoad={() => {
+                <video autoPlay loop muted src="/assets/korra_bg.mp4" id="home-bg" onLoad={() => {
                     setLoading(false)
                 }}/>
                     {/* SUCCESS LOGIN MODAL */}

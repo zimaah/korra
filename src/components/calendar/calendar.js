@@ -15,9 +15,9 @@ import KSpinner from '../spinner/spinner';
 import UpdateRemoveEventModal from './updateRemoveEventModal';
 import GenericModal from '../modal/generic-modal'
 import { getAuthorizedUser, sendEmailLink, signOut } from '../../engine/auth/firebase-email-link-auth'
-import { getAuth, updateProfile } from 'firebase/auth'
-import { app } from '../../engine/persistence/firebase'
+import { updateProfile } from 'firebase/auth'
 import Router from '../../engine/router/router'
+import multiMonthPlugin from '@fullcalendar/multimonth'
 
 export default class Calendar extends React.Component {
 
@@ -337,7 +337,7 @@ export default class Calendar extends React.Component {
                                         console.error(error)
                                     }
                                 }}>
-                                    <input type='text' name='display_name' placeholder='Nome ou apelido' autoFocus defaultValue={this.state.currentUser?.displayName}/>
+                                    <input type='text' name='display_name' placeholder='Nome ou apelido' defaultValue={this.state.currentUser?.displayName}/>
                                     <input type='text' name='email' disabled value={this.state.currentUser?.email} />
                                     <Button variant={"primary"} type="submit">Salvar</Button>
                                     <br/>
@@ -372,8 +372,8 @@ export default class Calendar extends React.Component {
 
 
                     <FullCalendar
-                        plugins={[ listPlugin, dayGridPlugin, interactionPlugin ]}
-                        initialView={window.innerWidth <= 440 ? 'listMonth' : 'dayGridMonth'}
+                        plugins={[ listPlugin, dayGridPlugin, interactionPlugin, multiMonthPlugin ]}
+                        initialView={window.innerWidth <= 440 ? 'multiMonthYear' : 'dayGridMonth'}
                         dateClick={(info) => {
                             this.showAddEventModal(info)
                         }}
@@ -387,7 +387,7 @@ export default class Calendar extends React.Component {
                         locale={ptBR}
                         headerToolbar={
                             {
-                                center: 'dayGridMonth,listMonth' // buttons for switching between views
+                                center: 'dayGridMonth,multiMonthYear' // buttons for switching between views
                             }
                         }
                     />

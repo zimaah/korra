@@ -17,7 +17,8 @@
     border-radius: 5px;
     padding: 10px;
     text-align: center;
-    color: var(--bs-primary)
+    color: var(--bs-primary);
+    margin-bottom: 56px;
 }
 
 .home__cta--show {

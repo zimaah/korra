@@ -4,8 +4,8 @@ import { app } from "../persistence/firebase";
 const actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be in the authorized domains list in the Firebase Console.
-    // url: 'https://korraaa-qa.web.app/#app',
-    url: 'http://localhost:8080/#app',
+    url: 'https://korraaa-qa.web.app/#app',
+    // url: 'http://localhost:8080/#app',
     // This must be true.
     handleCodeInApp: true,
 };
