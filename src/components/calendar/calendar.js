@@ -152,7 +152,7 @@ export default class Calendar extends React.Component {
             <>
                 {
                     this.state.loadingEvents &&
-                    <div className='home__loading'>
+                    <div className='loading-overlay'>
                         <KSpinner />
                     </div>
                 }
@@ -375,14 +375,17 @@ export default class Calendar extends React.Component {
                         plugins={[ listPlugin, dayGridPlugin, interactionPlugin, multiMonthPlugin ]}
                         initialView={window.innerWidth <= 440 ? 'multiMonthYear' : 'dayGridMonth'}
                         dateClick={(info) => {
-                            this.showAddEventModal(info)
+                            if (this.currentUser)
+                                this.showAddEventModal(info)
                         }}
                         events={this.state.events}
                         eventClick={(info) => {
-                            this.setState({
-                                showModalUpdateRemove: true,
-                                selectedEvent: info.event
-                            })
+                            if (this.currentUser) {
+                                this.setState({
+                                    showModalUpdateRemove: true,
+                                    selectedEvent: info.event
+                                })
+                            }
                         }}
                         locale={ptBR}
                         headerToolbar={

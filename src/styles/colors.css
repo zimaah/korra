@@ -1,0 +1,38 @@
+:root {
+    --ko-primary-color: #1A183A;
+    --ko-primary-color-rgb: 26,24,58;
+    --ko-primary-contrast: #FFF;
+
+    --ko-secondary-color: #E4633E;
+    --ko-secondary-color-rgb: rgba(228,99,62,1);
+    --ko-secondary-contrast: #FFF;
+    --ko-secondary-tint: #E4633E;
+    --ko-secondary-disabled-color: #E4633E;
+    --ko-secondary-disabled-contrast: #000;
+
+
+    --lilas: #A874AE;
+    
+    --ice-white: #FFFEFE;
+
+    --bs-primary-rgb: var(--ko-primary-color-rgb);
+    --bs-primary: var(--ko-primary-color);
+    --bs-primary-rgb: var(--ko-primary-color-rgb);
+}
+
+.btn-secondary {
+    --bs-btn-color: var(--ko-secondary-contrast);
+    --bs-btn-bg: var(--ko-secondary-color);
+    --bs-btn-border-color: var(--ko-secondary-color);
+    --bs-btn-hover-color: var(--ko-secondary-contrast);
+    --bs-btn-hover-bg: var(--ko-secondary-tint);
+    --bs-btn-hover-border-color: var(--ko-secondary-tint);
+    --bs-btn-focus-shadow-rgb: var(--ko-secondary-tint);
+    --bs-btn-active-color: var(--ko-secondary-contrast);
+    --bs-btn-active-bg: var(--ko-secondary-color);;
+    --bs-btn-active-border-color: var(--ko-secondary-color);;
+    --bs-btn-active-shadow: inset 0 3px 5px var(--ko-secondary-color);;
+    --bs-btn-disabled-color: var(--ko-secondary-disabled-contrast);
+    --bs-btn-disabled-bg: var(--ko-secondary-disabled);
+    --bs-btn-disabled-border-color: var(--ko-secondary-disabled);
+}

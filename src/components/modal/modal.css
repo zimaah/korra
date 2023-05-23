@@ -24,7 +24,7 @@
 
 .modal__input--required-fields {
     font-style: italic;
-    color: rgba(0 0 0 / 50%);
+    color: rgba(0, 0, 0, 0.5);
     font-size: 13px;
 }
 

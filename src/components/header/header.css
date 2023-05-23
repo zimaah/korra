@@ -1,3 +1,49 @@
 .header {
     z-index: 99999;
 }
+
+.ko-side-menu.offcanvas {
+    --bs-offcanvas-color: var(--ko-primary-contrast);
+    --bs-offcanvas-bg: var(--ko-primary-color);    
+}
+
+.ko-side-menu.offcanvas .offcanvas-body {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.ko-side-menu.offcanvas .offcanvas-body  a {
+    border-bottom: 1px solid #FFFFFF10;
+    padding-bottom: 25px;
+}
+
+.ko-side-menu.offcanvas .btn-close {
+    color: var(--ko-primary-contrast) !important;
+}
+
+.close {
+    position: absolute;
+    right: 32px;
+    top: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+.close:hover {
+    opacity: 1;
+}
+.close:before, .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: var(--ko-primary-contrast);
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}

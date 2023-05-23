@@ -1,15 +1,4 @@
-:root {
-    --dark-blue: #1A183A;
-    --dark-blue-rgb: 26,24,58;
-
-    --lilas: #A874AE;
-    --orange: #E2623D;
-    --ice-white: #FFFEFE;
-
-    --bs-primary-rgb: var(--dark-blue-rgb);
-    --bs-primary: var(--dark-blue);
-    --bs-primary-rgb: var(--dark-blue-rgb);
-}
+@import './styles/branding.css';
 
 #shell {
     left: 0;
@@ -34,8 +23,7 @@
     justify-content: space-between;
     contain: layout size style;
     overflow: hidden;
-    z-index: 0; */
-    
+    z-index: 0; */    
 }
 
 .fc-view-harness.fc-view-harness-active {

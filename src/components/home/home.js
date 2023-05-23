@@ -15,13 +15,14 @@ export default function Home() {
     const [showLoginSuccessfulModal, setShowLoginSuccessfulModal] = useState(false)
     const [showLoginErrorModal, setShowLoginErrorModal] = useState(false)
     const [loading, setLoading] = useState(true)
-    let authUser = null;
 
-    useEffect(() => {
-        getAuth(app).onAuthStateChanged((user) => {
-            authUser = user
-        });
-    }, [])
+    // let authUser = null;
+
+    // useEffect(() => {
+    //     getAuth(app).onAuthStateChanged((user) => {
+    //         authUser = user
+    //     });
+    // }, [])
 
     // checks if sign up process has started
     window.addEventListener("load", () => {
@@ -34,6 +35,7 @@ export default function Home() {
         const component = window.location.hash.replace('#', '');
         // refreshing the page
         Router(component)
+        setLoading(false)
     })
 
     const loadApp = async () => {
@@ -49,17 +51,13 @@ export default function Home() {
     return (
         <>
             <Header page={'home'} />
-                    {/* {
+                    {
                         loading &&
-                        <div className='home__loading'>
+                        <div className='loading-overlay'>
                             <KSpinner />
                         </div>
-                    } */}
+                    }
                 <div id="home-container" className="home__container">
-
-                <video autoPlay loop muted src="/assets/korra_bg.mp4" id="home-bg" onLoad={() => {
-                    setLoading(false)
-                }}/>
                     {/* SUCCESS LOGIN MODAL */}
                     {   showLoginSuccessfulModal &&
                         <GenericModal
@@ -106,7 +104,7 @@ export default function Home() {
                             Pronto?
                         </h1>
                         <br />
-                        <Button variant="primary" className='cta-btn' onClick={loadApp}>Comecar!</Button>
+                        <Button variant="secondary" className='cta-btn' onClick={loadApp}>Comecar!</Button>
                     </div>
                 </div>
             <Footer />
