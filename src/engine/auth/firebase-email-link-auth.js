@@ -12,7 +12,6 @@ const actionCodeSettings = {
 
 export function getAuthorizedUser(callback) {
     getAuth(app).onAuthStateChanged((user) => {
-        console.log(`getAuthorizedUser()`, user);
         callback && callback(user)
     });
 }
@@ -54,10 +53,8 @@ export function reAuthenticate(email) {
     // Re-authenticate the user with this credential.
     const auth = getAuth(app);
     auth.onAuthStateChanged((currentUser) => {
-        console.log(currentUser, credential);
         reauthenticateWithCredential(currentUser, credential)
             .then((usercred) => {
-                console.log(usercred)
             })
             .catch((error) => {
                 console.error(error)

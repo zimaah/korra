@@ -20,7 +20,8 @@
     --bs-primary-rgb: var(--ko-primary-color-rgb);
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn-close-secondary {
     --bs-btn-color: var(--ko-secondary-contrast);
     --bs-btn-bg: var(--ko-secondary-color);
     --bs-btn-border-color: var(--ko-secondary-color);

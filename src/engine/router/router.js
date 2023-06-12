@@ -7,7 +7,6 @@ import Home from '../../components/home/home';
 
 // Add listener to watch for "route changes"
 window.addEventListener("hashchange", async (e) => {
-    console.log(e)
     const component = e.newURL.split("#")[1];
 
     // refreshing the page

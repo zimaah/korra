@@ -82,8 +82,6 @@ export default class Calendar extends React.Component {
                 const events = await persistence.getAll()
                 const total = await this.calculateTotal()
 
-                console.log(events)
-
                 this.setState({
                     events: events,
                     loadingEvents: false,
@@ -326,7 +324,6 @@ export default class Calendar extends React.Component {
                             body={
                                 <form className='profile-modal' onSubmit={async (e) => {
                                     e.preventDefault()
-                                    console.log("saving profile...", this.state.currentUser)
                                     try {
                                         await updateProfile(this.state.currentUser, {displayName: document.getElementsByName("display_name")[0].value})
                                         this.setState({

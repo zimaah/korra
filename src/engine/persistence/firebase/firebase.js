@@ -13,12 +13,8 @@ export async function addFirebase(value) {
             observation: value.extendedProps.observation
         }
 
-        console.log(`value`, value)
-        console.log(`event`, event)
-
         if (value.extendedProps.firebaseId) {
             const eventRef = doc(firestore, "events", value.extendedProps.firebaseId)
-            console.log(eventRef);
             return updateDoc(eventRef, event)
         }
 
@@ -49,7 +45,6 @@ export async function getAllFirebase() {
 
 export async function removeFirebase(ref) {
     try {
-        console.log(ref, ref.path);
         return deleteDoc(doc(firestore, ref.path))
     } catch (error) {
         console.log(error);

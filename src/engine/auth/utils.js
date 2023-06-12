@@ -5,7 +5,6 @@ import { signInEmailLink } from "./firebase-email-link-auth";
  */
 export function checksIfLoginSuccessful(props) {
     const signPromise = signInEmailLink()
-    console.log(`signPromise`, signPromise)
     if (signPromise) {
         signPromise.then((result) => {
             // Clear email from storage.
@@ -16,7 +15,6 @@ export function checksIfLoginSuccessful(props) {
             // result.additionalUserInfo.profile == null
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
-            console.log(`result.user`, result.user);
 
             props.setShowLoginSuccessfulModal(true)
             localStorage.setItem("userAuth", true)

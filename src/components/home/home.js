@@ -1,11 +1,9 @@
 import ReactDOM from 'react-dom';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import './home.css';
 import { Button } from "react-bootstrap";
-import { getAuth } from 'firebase/auth';
-import { app } from '../../engine/persistence/firebase';
 import GenericModal from '../modal/generic-modal';
 import Router from '../../engine/router/router';
 import { checksIfLoginSuccessful } from '../../engine/auth/utils';
@@ -16,17 +14,8 @@ export default function Home() {
     const [showLoginErrorModal, setShowLoginErrorModal] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    // let authUser = null;
-
-    // useEffect(() => {
-    //     getAuth(app).onAuthStateChanged((user) => {
-    //         authUser = user
-    //     });
-    // }, [])
-
     // checks if sign up process has started
     window.addEventListener("load", () => {
-        console.log('load!')
         checksIfLoginSuccessful({
             setShowLoginSuccessfulModal: setShowLoginSuccessfulModal,
             setShowLoginErrorModal: setShowLoginErrorModal
@@ -36,12 +25,10 @@ export default function Home() {
         // refreshing the page
         Router(component)
         setLoading(false)
+        console.log("Hello World")
     })
 
     const loadApp = async () => {
-        // Firebase
-        // await import('../../engine/persistence/firebase/index');
-
         // Calendar
         import('../calendar/calendar').then((e) => {
             ReactDOM.render(<e.default />, document.getElementById("app"));
@@ -51,12 +38,12 @@ export default function Home() {
     return (
         <>
             <Header page={'home'} />
-                    {
-                        loading &&
-                        <div className='loading-overlay'>
-                            <KSpinner />
-                        </div>
-                    }
+                {
+                    loading &&
+                    <div className='loading-overlay'>
+                        <KSpinner />
+                    </div>
+                }
                 <div id="home-container" className="home__container">
                     {/* SUCCESS LOGIN MODAL */}
                     {   showLoginSuccessfulModal &&

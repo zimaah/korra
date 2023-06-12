@@ -1,31 +1,5 @@
 @import './styles/branding.css';
 
-#shell {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    contain: layout size style;
-    z-index: 0;
-    /* background: #f5ffff63;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    justify-content: space-between;
-    contain: layout size style;
-    overflow: hidden;
-    z-index: 0; */    
-}
-
 .fc-view-harness.fc-view-harness-active {
     height: 65vh !important;
 }
@@ -40,4 +14,10 @@
     #fc-dom-1 {
         font-size: 1em;
     }
+}
+
+#app {
+    background-image: url('http://localhost:8080/assets/bg.jpg');
+    background-size: cover;
+    background-position: center;
 }
