@@ -34,3 +34,15 @@
     z-index: 9;
 }
 
+.home__cta h1 {
+    text-align: center;
+    font-size: 27px;
+}
+
+.home__cta-text-highlight {
+    color: var(--ko-secondary-color);
+}
+
+.home__cta-text-underscore {
+    font-style: italic;
+}

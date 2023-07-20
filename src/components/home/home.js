@@ -28,13 +28,6 @@ export default function Home() {
         console.log("Hello World")
     })
 
-    const loadApp = async () => {
-        // Calendar
-        import('../calendar/calendar').then((e) => {
-            ReactDOM.render(<e.default />, document.getElementById("app"));
-        })
-    }
-
     return (
         <>
             <Header page={'home'} />
@@ -81,17 +74,18 @@ export default function Home() {
                     }
                     <div className="home__cta animate__animated animate__flipInX" id="home__cta">
                         <h1>
-                            A plataforma Korra foi desenvolvida
-                            <i> por corredores para corredores</i>.
+                            Corredores de <span className='home__cta-text-highlight'>alta performance</span> se encontram aqui.
                             <br />
                             <br />
-                            Foque nas corridas e deixe o resto conosco.
+                            Junte-se à tribo <span className='home__cta-text-underscore'>Korra</span>.
                             <br />
                             <br />
-                            Pronto?
+                            Você está pronto?
+                            <br />
+                            <br />
                         </h1>
                         <br />
-                        <Button variant="secondary" className='cta-btn' onClick={loadApp}>Comecar!</Button>
+                        <Button variant="secondary" className='cta-btn' href='#app'>Bora!</Button>
                     </div>
                 </div>
             <Footer />
